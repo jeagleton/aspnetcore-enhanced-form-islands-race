@@ -34,6 +34,8 @@ public sealed class AppFixture : IAsyncLifetime
         };
         start.Environment["ASPNETCORE_ENVIRONMENT"] = "Production";
         _app = Process.Start(start)!;
+        // A cancelled run (Ctrl+C) skips DisposeAsync; don't leave the app running and locking artifacts/.
+        AppDomain.CurrentDomain.ProcessExit += (_, _) => { try { _app.Kill(entireProcessTree: true); } catch (InvalidOperationException) { } };
         _app.OutputDataReceived += (_, _) => { };
         _app.ErrorDataReceived += (_, _) => { };
         _app.BeginOutputReadLine();

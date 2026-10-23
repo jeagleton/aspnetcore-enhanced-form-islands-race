@@ -53,7 +53,7 @@ throwing path does it, so the navigation completes.
 
 ### Steps To Reproduce
 
-Repro: **TODO: https://github.com/jeagleton/…/aspnetcore-enhanced-form-islands-race**
+Code and tests to repro: **https://github.com/jeagleton/aspnetcore-enhanced-form-islands-race**
 
 `./run.ps1` publishes the app (Release) and runs two checks on three pages:
 
