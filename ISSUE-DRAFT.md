@@ -1,11 +1,10 @@
 # Draft: dotnet/aspnetcore issue (NOT FILED)
 
-File at https://github.com/dotnet/aspnetcore/issues/new?template=10_bug_report.yml after pushing this folder. Fill in
-the one **TODO** (the repro link).
+File at https://github.com/dotnet/aspnetcore/issues/new?template=10_bug_report.yml after pushing this folder. 
 
 ---
 
-**Title:** Streaming SSR: `NavigateTo` after the response has started writes the redirection into the middle of the page (`OnNavigateTo` bypasses the response's buffered writer)
+**Title:** Streaming SSR: `NavigateTo` writes the redirection into the middle of the page after the response has started (`OnNavigateTo` bypasses the response's buffered writer)
 
 ### Is there an existing issue for this?
 
