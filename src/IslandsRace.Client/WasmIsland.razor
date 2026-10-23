@@ -1,0 +1,8 @@
+<div data-testid="wasm-island">
+    WebAssembly island: <button @onclick="() => _clicks++" data-testid="wasm-click">clicked @_clicks</button>
+    @if (RendererInfo.IsInteractive) { <span data-testid="wasm-ready">ready</span> }
+</div>
+
+@code {
+    private int _clicks;
+}

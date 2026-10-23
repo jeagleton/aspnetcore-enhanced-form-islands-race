@@ -1,0 +1,10 @@
+@page "/"
+
+<PageTitle>Home</PageTitle>
+<h1>Enhanced form redirect interleaved into the page</h1>
+<ul>
+    <li><a href="/profile">/profile</a>: enhanced form on a streaming page (the bug)</li>
+    <li><a href="/profile-not-enhanced">/profile-not-enhanced</a>: the same form, not enhanced</li>
+    <li><a href="/profile-no-streaming">/profile-no-streaming</a>: the same enhanced form, page without [StreamRendering]</li>
+</ul>
+<p>Query: <code>?chars=</code> filler before the islands (default 70000), <code>?delay=</code> save latency in ms (default 1).</p>

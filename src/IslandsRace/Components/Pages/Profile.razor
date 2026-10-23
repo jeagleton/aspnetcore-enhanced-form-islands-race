@@ -1,0 +1,15 @@
+@page "/profile"
+@attribute [StreamRendering]
+
+@* The bug: a streaming page with an enhanced form. *@
+
+<PageTitle>Profile</PageTitle>
+<h1>Profile: enhanced form, streaming page</h1>
+
+<ProfileForm Path="/profile" Enhanced="true" Saved="@(Saved is not null)" Chars="@(Chars ?? 70000)" Delay="@(Delay ?? 1)" />
+
+@code {
+    [SupplyParameterFromQuery] private string? Saved { get; set; }
+    [SupplyParameterFromQuery] private int? Chars { get; set; }
+    [SupplyParameterFromQuery] private int? Delay { get; set; }
+}

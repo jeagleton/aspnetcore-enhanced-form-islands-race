@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IslandsRace/IslandsRace.csproj" />
+    <Project Path="src/IslandsRace.Client/IslandsRace.Client.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/IslandsRace.Tests/IslandsRace.Tests.csproj" />
+  </Folder>
+</Solution>

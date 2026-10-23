@@ -1,0 +1,69 @@
+@inject NavigationManager Navigation
+@inject SavedNames Names
+
+@*
+    The page body shared by the three /profile pages: a static SSR form whose handler ends in NavigateTo
+    (post-redirect-get), page weight, and two interactive islands.
+
+    Chars: characters of filler before the islands. The bug needs a response bigger than the first chunk Blazor sends
+           (64 KB); where the split lands decides the symptom (inside an island's <!--Blazor:...--> comment the client
+           throws "Found malformed component comment"; inside plain text the page just shows the redirect markup).
+    Delay: the save's latency in ms. 1 ms makes the handler finish while that first chunk is being flushed.
+*@
+
+@if (!_loaded)
+{
+    <p>Loading…</p>
+}
+else
+{
+    @if (Saved)
+    {
+        <p data-testid="saved">Saved: @Names.Current</p>
+    }
+
+    <EditForm Model="Edit!" FormName="display-name" OnValidSubmit="Save" Enhance="@Enhanced" data-testid="form">
+        <DataAnnotationsValidator />
+        <InputText @bind-Value="Edit!.Name" data-testid="name" />
+        <ValidationMessage For="() => Edit!.Name" />
+        <button type="submit" data-testid="save">Save</button>
+    </EditForm>
+
+    <div hidden>@(new string('x', Chars))</div>
+
+    <ServerIsland @rendermode="InteractiveServer" />
+    <WasmIsland @rendermode="InteractiveWebAssembly" />
+}
+
+@code {
+    private bool _loaded;
+
+    [Parameter, EditorRequired] public string Path { get; set; } = "";
+    [Parameter] public bool Enhanced { get; set; }
+    [Parameter] public bool Saved { get; set; }
+    [Parameter] public int Chars { get; set; }
+    [Parameter] public int Delay { get; set; }
+
+    [SupplyParameterFromForm(FormName = "display-name")]
+    private NameEdit? Edit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(50);   // stands in for loading the profile
+        Edit ??= new NameEdit { Name = Names.Current };
+        _loaded = true;
+    }
+
+    private async Task Save()
+    {
+        await Task.Delay(Delay);   // stands in for the save's API call
+        Names.Current = Edit!.Name!;
+        Navigation.NavigateTo($"{Path}?saved=1&chars={Chars}&delay={Delay}");   // PRG
+    }
+
+    public sealed class NameEdit
+    {
+        [System.ComponentModel.DataAnnotations.Required, System.ComponentModel.DataAnnotations.MaxLength(64)]
+        public string? Name { get; set; }
+    }
+}

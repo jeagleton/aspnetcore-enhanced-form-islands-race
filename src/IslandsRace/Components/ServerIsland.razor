@@ -1,0 +1,8 @@
+<div data-testid="server-island">
+    Server island: <button @onclick="() => _clicks++" data-testid="server-click">clicked @_clicks</button>
+    @if (RendererInfo.IsInteractive) { <span data-testid="server-ready">ready</span> }
+</div>
+
+@code {
+    private int _clicks;
+}
